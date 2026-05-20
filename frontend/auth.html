@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PawHaven — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0c0a;--surface:#161412;--surface2:#1e1a16;--border:#2a2420;
+  --accent:#d4854a;--accent2:#e8a876;--text:#f0ebe4;--muted:#8a7a6a;
+  --error:#c04848;--green:#4a9e6a;
+}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+body::before{content:'🐶 🐱 🐰 🐦 🐾 🐶 🐱 🐰 🐦 🐾 🐶 🐱 🐰 🐦 🐾 🐶 🐱';position:fixed;top:0;left:0;right:0;bottom:0;font-size:48px;display:flex;flex-wrap:wrap;gap:80px;padding:40px;opacity:0.025;pointer-events:none;align-content:flex-start;z-index:0;filter:blur(1px)}
+.auth-wrapper{display:flex;width:100%;max-width:920px;min-height:560px;border-radius:24px;overflow:hidden;border:1px solid var(--border);position:relative;z-index:1;box-shadow:0 32px 80px rgba(0,0,0,0.5)}
+.auth-left{flex:1;background:linear-gradient(135deg,#1a1208 0%,#0e0c0a 50%,#12100e 100%);padding:56px 48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border-right:1px solid var(--border)}
+.auth-left::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(212,133,74,0.12),transparent 70%);pointer-events:none}
+.auth-left::after{content:'';position:absolute;bottom:-40px;left:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(212,133,74,0.07),transparent 70%);pointer-events:none}
+.brand{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700}
+.brand span{color:var(--accent)}
+.left-content h1{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;line-height:1.2;margin-bottom:16px}
+.left-content h1 em{color:var(--accent);font-style:italic}
+.left-content p{color:var(--muted);font-size:15px;line-height:1.75;font-weight:300;max-width:300px}
+.left-footer{display:flex;gap:24px}
+.left-stat{text-align:center}
+.left-stat-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--accent)}
+.left-stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+.auth-right{flex:1;background:var(--surface);padding:56px 48px;display:flex;flex-direction:column;justify-content:center}
+.tabs{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:36px}
+.tab{flex:1;background:transparent;border:none;padding:10px;border-radius:9px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;color:var(--muted);transition:all 0.2s}
+.tab.active{background:var(--bg);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:6px}
+.form-sub{color:var(--muted);font-size:14px;margin-bottom:28px;font-weight:300}
+.form-group{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+input{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border 0.2s;width:100%}
+input:focus{border-color:var(--accent);background:var(--bg)}
+input::placeholder{color:var(--muted)}
+.btn-auth{width:100%;background:var(--accent);color:#fff;border:none;padding:14px;border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;transition:all 0.2s;margin-top:4px;letter-spacing:0.02em}
+.btn-auth:hover{background:var(--accent2);transform:translateY(-1px)}
+.error-msg{color:#e06060;font-size:13px;margin-bottom:12px;min-height:18px;padding:8px 12px;background:rgba(192,72,72,0.08);border:1px solid rgba(192,72,72,0.2);border-radius:8px;display:none}
+.error-msg.show{display:block}
+.switch-text{text-align:center;font-size:13px;color:var(--muted);margin-top:20px;font-weight:300}
+.switch-text a{color:var(--accent);text-decoration:none;font-weight:500}
+.switch-text a:hover{text-decoration:underline}
+@media(max-width:700px){.auth-left{display:none}.auth-wrapper{max-width:420px}.auth-right{padding:36px 28px}}
+</style>
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="auth-left">
+    <div class="brand">Paw<span>Haven</span></div>
+    <div class="left-content">
+      <h1>Every pet deserves a <em>loving</em> home.</h1>
+      <p>Join our community and help a pet find their forever family. Browse, apply, and change a life today.</p>
+    </div>
+    <div class="left-footer">
+      <div class="left-stat"><div class="left-stat-num">500+</div><div class="left-stat-label">Pets Rescued</div></div>
+      <div class="left-stat"><div class="left-stat-num">300+</div><div class="left-stat-label">Adopted</div></div>
+      <div class="left-stat"><div class="left-stat-num">100+</div><div class="left-stat-label">Families</div></div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="tabs">
+      <button class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="tab" id="tab-register" onclick="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="form-login">
+      <div class="form-title">Welcome back</div>
+      <div class="form-sub">Sign in to continue to PawHaven</div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input id="l-email" type="email" placeholder="you@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input id="l-password" type="password" placeholder="••••••••"/>
+      </div>
+      <div id="login-error" class="error-msg"></div>
+      <button class="btn-auth" onclick="handleLogin()">Sign In →</button>
+      <p class="switch-text">No account? <a href="#" onclick="switchTab('register')">Create one free</a></p>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="form-register" style="display:none">
+      <div class="form-title">Create account</div>
+      <div class="form-sub">Start your adoption journey today</div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input id="r-name" type="text" placeholder="John Doe"/>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input id="r-email" type="email" placeholder="you@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input id="r-password" type="password" placeholder="Min 6 characters"/>
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input id="r-confirm" type="password" placeholder="Repeat password"/>
+      </div>
+      <div id="register-error" class="error-msg"></div>
+      <button class="btn-auth" onclick="handleRegister()">Create Account →</button>
+      <p class="switch-text">Already have an account? <a href="#" onclick="switchTab('login')">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:5000/api';
+
+function switchTab(tab) {
+  document.getElementById('form-login').style.display = tab==='login'?'block':'none';
+  document.getElementById('form-register').style.display = tab==='register'?'block':'none';
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+  document.getElementById('login-error').classList.remove('show');
+  document.getElementById('register-error').classList.remove('show');
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+async function handleLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const password = document.getElementById('l-password').value;
+  document.getElementById('login-error').classList.remove('show');
+  if(!email||!password) return showError('login-error','Please fill in all fields');
+  try {
+    const res = await fetch(`${API}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const data = await res.json();
+    if(data.success){
+      localStorage.setItem('token', data.data.token);
+      localStorage.setItem('user', JSON.stringify(data.data.user));
+      window.location.href = data.data.user.role === 'admin' ? 'admin.html' : 'index.html';
+    } else showError('login-error', data.error);
+  } catch(e){ showError('login-error','Cannot connect to server. Is the backend running?'); }
+}
+
+async function handleRegister() {
+  const name = document.getElementById('r-name').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const password = document.getElementById('r-password').value;
+  const confirm = document.getElementById('r-confirm').value;
+  document.getElementById('register-error').classList.remove('show');
+  if(!name||!email||!password) return showError('register-error','Please fill in all fields');
+  if(password.length<6) return showError('register-error','Password must be at least 6 characters');
+  if(password!==confirm) return showError('register-error','Passwords do not match');
+  try {
+    const res = await fetch(`${API}/auth/register`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password})});
+    const data = await res.json();
+    if(data.success){
+      localStorage.setItem('token', data.data.token);
+      localStorage.setItem('user', JSON.stringify(data.data.user));
+      window.location.href = data.data.user.role === 'admin' ? 'admin.html' : 'index.html';
+    } else showError('register-error', data.error);
+  } catch(e){ showError('register-error','Cannot connect to server. Is the backend running?'); }
+}
+
+// Enter key support
+document.addEventListener('keydown', e => {
+  if(e.key==='Enter'){
+    if(document.getElementById('form-login').style.display!=='none') handleLogin();
+    else handleRegister();
+  }
+});
+</script>
+</body>
+</html>
